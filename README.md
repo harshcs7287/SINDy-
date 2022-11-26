@@ -11,7 +11,7 @@ The continuous stirred-tank reactor (CSTR) is a common model for a chemical reac
 
 Integral mass balance on number of moles N_A of species A in a reactor of volume V:
 
-![alt text](https://wikimedia.org/api/rest_v1/media/math/render/svg/8eebf2350ec13c737ba7a73c8d785bbd0304bcb6.png)
+![alt text](https://github.com/harshcs7287/SINDy-/blob/main/mass_balance.jpg?raw=true)
 
 
 ## Training Data
@@ -37,3 +37,17 @@ z_dot(4,1)=-Fout*P3 + V*(Kt*P1*P2);
 
 end
 ```
+```Matlab
+
+clc
+z0=[1;0;0;0];
+[tval,zval]=ode45(@(t,z) function_deri(t,z),[0:0.01:0.5],z0);
+plot(tval,[zval(:,1) zval(:,2) zval(:,3) zval(:,4)])
+
+zval_new=zval([1:2:101],:)
+tval_new=tval([1:2:101]);
+zder_val=diff_fun(zval_new,tval_new);
+
+```
+
+
