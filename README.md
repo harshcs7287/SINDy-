@@ -22,6 +22,12 @@ of most dynamical systems contain very few terms. These equation can be consider
 the system is expected to evolve on a low dimensional manifold. Sparse Identification tries to discover these equations
 from noisy time series data.
 
+![alt text](https://github.com/harshcs7287/SINDy-/blob/main/SINDy.jpg?raw=true)
+
+There are very few terms which will influence the derivative, so I will be using lease absoluteshrinkage and selection operator **(LASSO)** method for the optimisation.
+
+
+
 
 ## Training Data
 
@@ -53,14 +59,11 @@ z0=[1;0;0;0];
 [tval,zval]=ode45(@(t,z) function_deri(t,z),[0:0.01:0.5],z0);
 plot(tval,[zval(:,1) zval(:,2) zval(:,3) zval(:,4)])
 
-zval_new=zval([1:2:101],:)
-tval_new=tval([1:2:101]);
-zder_val=diff_fun(zval_new,tval_new);
 ```
 
 ![alt text](https://github.com/harshcs7287/SINDy-/blob/main/Concentration_Graph.jpg?raw=true)
 
-## Deply SINDy Algorithm
+## Deploy SINDy Algorithm
 
 ```Matlab
 function [d_oa] = diff_fun(zval,tval)
@@ -76,6 +79,9 @@ end
 ```
 
 ```Matlab
+zval_new=zval([1:2:101],:)
+tval_new=tval([1:2:101]);
+zder_val=diff_fun(zval_new,tval_new);
 zval_mod=zval(2:end,:)
 M=zval_mod(:,1);
 P1=zval_mod(:,2);
@@ -86,7 +92,10 @@ P1.*(zval_mod(:,3:end)) P2.*P3];
 [B,S] = lasso(X,zder_val(:,1),'CV',3);
 theta_opt = (B(:,S.IndexMinMSE));
 ```
-theta_opt = [
+## Conclusion
+
+We can multiply the Optimised theta matrix to the function space to get the equations of dynamics of every element in the reactor and its dependencies on the other elements.
+
 
 
 
